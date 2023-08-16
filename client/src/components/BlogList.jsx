@@ -4,6 +4,7 @@ import { baseUrl } from "../App";
 import { Link } from "react-router-dom";
 import "../assets/css/CreateBlog.css";
 import { ToastContainer, toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const BlogList = () => {
   const [data, setData] = useState([]);
@@ -17,32 +18,43 @@ const BlogList = () => {
   }, [id]);
 
   const handleDelete = async (id) => {
-    const res = await axios.delete(baseUrl + "/delete-blog/" + id);
-
-    if (res.data?.error) {
-      toast.error(res.data.error, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    } else {
-      toast.success(res.data.massage, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-      setId(id);
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await axios.delete(baseUrl + "/delete-blog/" + id);
+        setId(id);
+        if (res.data?.error) {
+          toast.error(res.data.error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        } else {
+          toast.success(res.data.massage, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      }
+    });
   };
 
   return (
