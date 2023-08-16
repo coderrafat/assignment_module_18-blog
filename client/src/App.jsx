@@ -4,7 +4,7 @@ import UpdateBlog from "./pages/UpdateBlog";
 import CreateBlog from "./pages/CreateBlog";
 import Blog from "./pages/Blog";
 
-export const baseUrl = "http://localhost:5000/api/v1";
+export const baseUrl = "https://blog-coderrafat.onrender.com/api/v1";
 
 const App = () => {
   return (
