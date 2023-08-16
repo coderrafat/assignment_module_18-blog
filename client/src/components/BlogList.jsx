@@ -13,11 +13,6 @@ const BlogList = () => {
     (async () => {
       const res = await axios.get(baseUrl + "/blogs");
       setData(res.data);
-      if (!res.data) {
-        return (
-          <div className="flex justify-content-center">Blog Not Found</div>
-        );
-      }
     })();
   }, [id]);
 
@@ -53,6 +48,9 @@ const BlogList = () => {
   return (
     <div className="container">
       <div className="row justify-content-center">
+        {data.length === 0 && (
+          <div className="fs-2 fw-bold center-screen">Blog Not Found</div>
+        )}
         {data &&
           data.map((item) => {
             return (
